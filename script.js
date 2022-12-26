@@ -26,6 +26,18 @@ function getFieldName(input) {
   return input.id.charAt(0).toUpperCase() + input.id.slice(1);
 }
 
+function checkFieldLength(inputField, minLength) {
+  if (inputField.value.length < minLength) {
+    displayError(inputField, `${getFieldName(inputField)} should be at least ${minLength} character long`);
+  }
+}
+
+function passwordsMatch(password1, password2) {
+  if (password1.value !== password2.value) {
+    displayError(password2, `Passwords dont match`);
+  }
+}
+
 function validateRequiredFields(fieldsArray) {
   fieldsArray.forEach(inputField => {
     if (inputField.value.trim() === '') {
@@ -44,4 +56,7 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   validateRequiredFields([username, email, password, confirmPassword]);
+  checkFieldLength(username, 3);
+  checkFieldLength(password, 6);
+  passwordsMatch(password, confirmPassword);
 });
